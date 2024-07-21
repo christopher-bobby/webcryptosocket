@@ -87,7 +87,6 @@ const [last24HoursChanges, setLast24HoursChanges] = useState<any>({
 console.log("cryptoData", cryptoData)
   return (
     <div>
-    <h1>List Page</h1>
     <RealTimePrice initialData={cryptoData} symbolString={symbolString} last24HoursChanges={last24HoursChanges} />
   </div>
   );

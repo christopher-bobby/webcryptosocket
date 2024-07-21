@@ -1,4 +1,3 @@
-// app/detail/[id]/page.tsx
 "use client"
 
 import { useRouter } from 'next/navigation';
@@ -25,9 +24,9 @@ const symbolMap: { [key: string]: string } = {
 
 const DetailPage: NextPage = () => {
     const { id } = useParams<{ id: string }>();
-    const symbol = symbolMap[id] || "BITSTAMP:BTCUSD";
+    const symbol = symbolMap[id];
   
-    console.log("searchParams")
+    console.log("searchParams", symbol)
   return (
     <div>
       <TradingViewWidget symbol={symbol}/>

@@ -11,7 +11,7 @@ function TradingViewWidget({symbol} : {symbol?: string | string []}) {
       script.async = true;
       script.innerHTML = JSON.stringify({
         autosize: true,
-        symbol: symbol || "BITSTAMP:BTCUSD",
+        symbol: symbol,
         interval: "D",
         timezone: "Etc/UTC",
         theme: "light",
