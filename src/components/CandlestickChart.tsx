@@ -1,8 +1,28 @@
 // TradingViewWidget.jsx
 import React, { useEffect, useRef, memo } from 'react';
 import OrderBook from './OrderBook';
+import { redirect } from 'next/navigation'
+
 function TradingViewWidget({symbol} : {symbol?: string | string []}) {
   const container = useRef();
+
+   useEffect(()=> {
+    if(symbol !== "COINBASE:XRPUSD" && symbol !== "BINANCE:BNBUSD" &&
+   symbol !== "COINBASE:ADAUSD" &&
+   symbol !== "COINBASE:SOLUSD" &&
+   symbol !== "COINBASE:DOGEUSD" &&
+   symbol !== "COINBASE:AVAXUSD" &&
+   symbol !== "COINBASE:DOTUSD" &&
+   symbol !== "COINBASE:UNIUSD" &&
+   symbol !== "COINBASE:XLMUSD" &&
+   symbol !== "COINBASE:LTCUSD" &&
+   symbol !== "COINBASE:LINKUSD" &&
+   symbol !== "COINBASE:VETUSD" &&
+   symbol !== "BINANCE:TRXUSDT") {
+    redirect('/not-found')
+   }
+   },[])
+
 
   useEffect( () => {
       const script = document.createElement("script");

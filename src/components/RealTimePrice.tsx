@@ -97,9 +97,9 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
             </div>
             <div className="w-1/4 text-right text-white">
               {Number(last24HoursChanges[crypto.key]) > 0 ? (
-                <span className="w-16 h-8 flex items-center justify-center bg-green-500 ml-auto rounded">{last24HoursChanges[crypto.key]}%</span>
+                <span className="w-16 h-8 flex items-center justify-center bg-green-500 ml-auto rounded text-sm">{last24HoursChanges[crypto.key]}%</span>
               ) : (
-                <span className="w-16 h-8 flex items-center justify-center bg-red-500 ml-auto rounded font-sm">{last24HoursChanges[crypto.key]}%</span>
+                <span className="w-16 h-8 flex items-center justify-center bg-red-500 ml-auto rounded text-sm">{last24HoursChanges[crypto.key]}%</span>
               )}
             </div>
           </Link>
