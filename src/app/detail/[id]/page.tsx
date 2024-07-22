@@ -4,9 +4,10 @@ import { useRouter } from 'next/navigation';
 import { NextPage } from 'next';
 import { useParams } from 'next/navigation'
 import TradingViewWidget from '@/components/CandlestickChart';
-
+import OrderBook from '@/components/OrderBook';
 
 const symbolMap: { [key: string]: string } = {
+    btc: "BITSTAMP:BTCUSD",
     xrp: "COINBASE:XRPUSD",
     bnb: "BINANCE:BNBUSD",
     ada: "COINBASE:ADAUSD",
@@ -19,18 +20,33 @@ const symbolMap: { [key: string]: string } = {
     lite: "COINBASE:LTCUSD",
     link: "COINBASE:LINKUSD",
     vet: "COINBASE:VETUSD",
-    tron: "BINANCE:TRXUSDT",
-  };
+};
+
+const symbolOrderbook: { [key: string]: string } = {
+    btc: "btcusdt",
+    xrp: "xrpusdt", 
+    bnb: "bnbusdt",
+    ada: "adausdt",
+    sol: "solusdt",
+    doge: "dogeusdt",
+    ava: "avausdt",
+    dot: "dotusdt",
+    uni: "uniusdt",
+    stellar: "xlmusdt",
+    lite: "ltcusdt",
+    link: "linkusdt",
+    vet: "vetusdt",
+};
+
 
 const DetailPage: NextPage = () => {
     const { id } = useParams<{ id: string }>();
     const symbol = symbolMap[id];
-  
-    console.log("searchParams", symbol)
+    const symbolAssetOrderBook = symbolOrderbook[id];
   return (
-    <div>
-      <TradingViewWidget symbol={symbol}/>
-
+    <div className='min-h-[100vh] bg-black'>
+        <TradingViewWidget symbol={symbol}/>
+        <OrderBook symbol={symbolAssetOrderBook} />
     </div>
   );
 };

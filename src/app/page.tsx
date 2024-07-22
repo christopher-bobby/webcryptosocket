@@ -1,10 +1,9 @@
 "use client"
 
-import Image from "next/image";
-import Link from 'next/link';
 import RealTimePrice from "@/components/RealTimePrice";
-import OrderBookComponent from "@/components/OrderBook";
+import SkeletonLoader from "@/components/SkeletonLoader";
 import { useEffect, useState } from "react";
+import { CryptoAsset } from "@/types";
 
 export default function Home() {
 
@@ -25,7 +24,7 @@ export default function Home() {
     'tron'
   ];
   const symbolString = symbols.join(',');
-  const [cryptoData, setCryptoData] = useState<any>({
+  const [cryptoData, setCryptoData] = useState({
     bitcoin: null,
     ethereum: null,
     'binance-coin': null,
@@ -39,24 +38,22 @@ export default function Home() {
     litecoin: null,
     chainlink: null,
     vechain: null,
-    tron: null
   });
 
-const [last24HoursChanges, setLast24HoursChanges] = useState<any>({
-    'bitcoin': 0,
-    'ethereum':0,
-    'binance-coin': '0',
-    'cardano': '0',
-    'solana': '0',
-    'xrp': '0',
-    'dogecoin': '0',
-    'polkadot': '0',
-    'uniswap': '0',
-    'stellar': '0',
-    'litecoin': '0',
-    'chainlink': '0',
-    'vechain': '0',
-    'tron': '0',
+const [last24HoursChanges, setLast24HoursChanges] = useState({
+    bitcoin: null,
+    ethereum: null,
+    'binance-coin': null,
+    cardano: null,
+    solana: null,
+    xrp: null,
+    dogecoin: null,
+    polkadot: null,
+    uniswap: null,
+    stellar: null,
+    litecoin: null,
+    chainlink: null,
+    vechain: null,
 })
  
   useEffect(() => {
@@ -66,8 +63,7 @@ const [last24HoursChanges, setLast24HoursChanges] = useState<any>({
         const data = await response.json();
         const updatedPrices = { ...cryptoData };
         const lastChanges = {...last24HoursChanges}
-        data.data.forEach((asset: any) => {
-          console.log("asset", asset);
+        data.data.forEach((asset: CryptoAsset) => {
           if (updatedPrices[asset.id] !== undefined) {
             updatedPrices[asset.id] = parseFloat(asset.priceUsd);
             lastChanges[asset.id] = Number(asset.changePercent24Hr).toFixed(2);   
@@ -84,10 +80,10 @@ const [last24HoursChanges, setLast24HoursChanges] = useState<any>({
 
 }, []); 
 
-console.log("cryptoData", cryptoData)
   return (
-    <div>
-    <RealTimePrice initialData={cryptoData} symbolString={symbolString} last24HoursChanges={last24HoursChanges} />
-  </div>
+    <div className="md:w-1/2 md:m-auto p-4 md:p-0">
+      <h1 className="font-bold text-lg mb-8 mt-6 md:mt-10">Live update Crypto Market</h1>
+      <RealTimePrice initialData={cryptoData} symbolString={symbolString} last24HoursChanges={last24HoursChanges} />
+    </div>
   );
 }

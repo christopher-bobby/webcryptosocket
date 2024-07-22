@@ -1,6 +1,5 @@
-// components/RealTimeDataComponent.tsx
-
 import { useEffect, useState } from 'react';
+import { CryptoPrices, Last24HrChgs } from '@/types';
 import Link from 'next/link';
 import Image from 'next/image';
 import ic_btc from '../assets/icons/ic-bitcoin.svg';
@@ -15,12 +14,12 @@ import ic_lite from '../assets/icons/ic-litecoin.svg';
 import ic_stellar from '../assets/icons/ic-stellar.svg';
 import ic_link from '../assets/icons/ic-chainlink.svg';
 import ic_vet from '../assets/icons/ic-vet.svg';
-import ic_tron from '../assets/icons/ic-tron.svg';
+import SkeletonLoader from './SkeletonLoader';
 
 
-const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { initialData: any, symbolString: string, last24HoursChanges: any}) => {
+const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { initialData: CryptoPrices, symbolString: string, last24HoursChanges: Last24HrChgs}) => {
   const [cryptoPrices, setCryptoPrices] = useState({...initialData});
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(()=> {
     setCryptoPrices({...initialData})
   }, [initialData])
@@ -29,17 +28,16 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
     const socket = new WebSocket(`wss://ws.coincap.io/prices?assets=${symbolString}`);
 
     socket.onopen = () => {
+      setIsLoading(false)
       console.log('WebSocket connected');
     };
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log("all data", event)
       setCryptoPrices((prevPrices) => ({
         ...prevPrices,
         ...data,
       }));
-      // Handle received data here, update state, etc.
     };
 
     socket.onclose = () => {
@@ -50,9 +48,8 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
       socket.close();
     };
   }, [symbolString]);
-    console.log("cryptoPrices", cryptoPrices, initialData, last24HoursChanges)
-    console.log("last24HoursChanges", last24HoursChanges)
-  const listClass = " pb-2 flex justify-between mb-4 md:mb-8 flex-row";
+
+  const listClass = "pb-2 flex justify-between mb-4 md:mb-8 flex-row";
   const cryptoList = [
     { name: 'Bitcoin', abbr:'BTC', key: 'bitcoin', link: '/detail/btc', src: ic_btc },
     { name: 'Ripple', abbr:'XRP', key: 'xrp', link: '/detail/xrp', src: ic_xrp },
@@ -66,10 +63,25 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
     { name: 'Litecoin', abbr: 'LITE', key: 'litecoin', link: '/detail/lite', src: ic_lite },
     { name: 'Chainlink', abbr:'LINK', key: 'chainlink', link: '/detail/link', src: ic_link },
     { name: 'Vechain', abbr: 'VET', key: 'vechain', link: '/detail/vet', src: ic_vet },
-    { name: 'Tron', abbr: 'TRON', key: 'tron', link: '/detail/tron', src: ic_tron },
   ];
+
+  if(isLoading) {
+    return (
+      <div>
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+        <SkeletonLoader />
+      </div>
+    )
+  }
+
+
   return (
-    <div  className="bg-white text-black min-h-[100vh] p-5 md:w-1/2 m-auto">
+    <div  className="bg-white text-black min-h-[100vh] p-5 m-auto">
       <div className="flex text-black mb-2 md:mb-8">
         <div className="w-1/2">Name</div>
         <div className="w-1/4">Last Price</div>
@@ -87,7 +99,7 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
                 alt="Picture of the author"
               />
               <div className='ml-2'>
-                <span className=' text-lg'>{crypto.abbr}</span>
+                <span className='text-lg'>{crypto.abbr}</span>
                 <span className='block text-sm opacity-75'>{crypto.name}</span>
               </div>
 
@@ -95,13 +107,13 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
             <div className="w-1/4">
               {cryptoPrices[crypto.key] && `$${Number(cryptoPrices[crypto.key]).toFixed(2)}`}
             </div>
-            <div className="w-1/4 text-right text-white">
+            {last24HoursChanges[crypto.key] && (<div className="w-1/4 text-right text-white">
               {Number(last24HoursChanges[crypto.key]) > 0 ? (
                 <span className="w-16 h-8 flex items-center justify-center bg-green-500 ml-auto rounded text-sm">{last24HoursChanges[crypto.key]}%</span>
               ) : (
                 <span className="w-16 h-8 flex items-center justify-center bg-red-500 ml-auto rounded text-sm">{last24HoursChanges[crypto.key]}%</span>
               )}
-            </div>
+            </div>)}
           </Link>
         </li>
       ))}

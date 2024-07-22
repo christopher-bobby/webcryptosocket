@@ -1,16 +1,33 @@
 import React, { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation'
 
 interface OrderBookData {
   price: string;
   qty: string;
 }
 
-const OrderBook: React.FC = () => {
+const OrderBook = ({symbol} : {symbol: string}) => {
   const [bids, setBids] = useState<OrderBookData[]>([]);
   const [asks, setAsks] = useState<OrderBookData[]>([]);
+ 
+  useEffect(()=> {
+    if(symbol !== "btcusdt" && symbol !== "xrpusdt" && symbol !== "bnbusdt" &&
+     symbol !== "adausdt" &&
+     symbol !== "solusdt" &&
+     symbol !== "dogeusdt" &&
+     symbol !== "avausdt" &&
+     symbol !== "dotusdt" &&
+     symbol !== "uniusdt" &&
+     symbol !== "xlmusdt" &&
+     symbol !== "ltcusdt" &&
+     symbol !== "linkusdt" &&
+     symbol !== "vetusdt") {
+      redirect('/not-found')
+     }
+  },[])
 
   useEffect(() => {
-    const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@depth');
+    const ws = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol}@depth`);
 
     ws.onopen = () => {
       console.log('Connected to WebSocket');
@@ -38,24 +55,24 @@ const OrderBook: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-4">
-      <h2>Order book</h2>
-      <div className='md:flex md:flex-row'>
-        <div className='w-1/2'>
+    <div className="p-4 text-white h-full">
+      <h2 className='font-semibold'>Order book</h2>
+      <div className='md:flex md:flex-row md:justify-between'>
+        <div className='md:w-1/3'>
           <h3>Bid</h3>
 
           <ul>
-            {bids.map(({ price, qty }, index) => (
-              <li key={index}>{`Price: ${price}, Quantity: ${qty}`}</li>
+            {bids.slice(0,10).map(({ price, qty }, index) => (
+              <li key={index} className='flex justify-between w-full'><span className='text-green-500'>{price}</span> <span>{qty}</span></li>
             ))}
           </ul>
         </div>
-        <div className='w-1/2'>
+        <div className='md:w-1/3'>
           <h3 className='mt-4 md:mt-0'>Ask</h3>
 
           <ul>
-            {asks.map(({ price, qty }, index) => (
-              <li key={index}>{`Price: ${price}, Quantity: ${qty}`}</li>
+            {asks.slice(0,10).map(({ price, qty }, index) => (
+              <li key={index} className='flex justify-between w-full'><span className='text-red-500'>{price}</span> <span>{qty}</span></li>
             ))}
           </ul>
         </div>
