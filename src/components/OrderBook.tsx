@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
+import { ASSETS } from '@/constants';
 
 interface OrderBookData {
   price: string;
@@ -11,17 +12,17 @@ const OrderBook = ({symbol} : {symbol: string}) => {
   const [asks, setAsks] = useState<OrderBookData[]>([]);
  
   useEffect(()=> {
-    if(symbol !== "btcusdt" && symbol !== "xrpusdt" && symbol !== "bnbusdt" &&
-     symbol !== "adausdt" &&
-     symbol !== "solusdt" &&
-     symbol !== "dogeusdt" &&
-     symbol !== "avausdt" &&
-     symbol !== "dotusdt" &&
-     symbol !== "uniusdt" &&
-     symbol !== "xlmusdt" &&
-     symbol !== "ltcusdt" &&
-     symbol !== "linkusdt" &&
-     symbol !== "vetusdt") {
+    if(symbol !== ASSETS.BTCUSDT && symbol !== ASSETS.XRPUSDT && symbol !==  ASSETS.BNBUSDT &&
+     symbol !== ASSETS.ADAUSDT &&
+     symbol !== ASSETS.SOLUSDT &&
+     symbol !== ASSETS.DOGEUSDT &&
+     symbol !== ASSETS.AVAUSDT &&
+     symbol !== ASSETS.DOTUSDT &&
+     symbol !== ASSETS.UNIUSDT &&
+     symbol !== ASSETS.XLMUSDT &&
+     symbol !== ASSETS.LTCUSDT &&
+     symbol !== ASSETS.LINKUSDT &&
+     symbol !== ASSETS.VETUSDT) {
       redirect('/not-found')
      }
   },[])

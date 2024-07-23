@@ -1,24 +1,25 @@
 import React, { useEffect, useRef, memo } from 'react';
 import { redirect } from 'next/navigation';
+import { SYMBOLS } from '@/constants';
 
 function TradingViewWidget({ symbol }: { symbol?: string | string[] }) {
   const container = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (
-      symbol !== "BITSTAMP:BTCUSD" &&
-      symbol !== "COINBASE:XRPUSD" &&
-      symbol !== "BINANCE:BNBUSD" &&
-      symbol !== "COINBASE:ADAUSD" &&
-      symbol !== "COINBASE:SOLUSD" &&
-      symbol !== "COINBASE:DOGEUSD" &&
-      symbol !== "COINBASE:AVAXUSD" &&
-      symbol !== "COINBASE:DOTUSD" &&
-      symbol !== "COINBASE:UNIUSD" &&
-      symbol !== "COINBASE:XLMUSD" &&
-      symbol !== "COINBASE:LTCUSD" &&
-      symbol !== "COINBASE:LINKUSD" &&
-      symbol !== "COINBASE:VETUSD"
+      symbol !== SYMBOLS.BTCUSD &&
+      symbol !== SYMBOLS.XRPUSD &&
+      symbol !== SYMBOLS.BNBUSD &&
+      symbol !== SYMBOLS.ADAUSD &&
+      symbol !== SYMBOLS.SOLUSD &&
+      symbol !== SYMBOLS.DOGEUSD &&
+      symbol !== SYMBOLS.AVAXUSD &&
+      symbol !== SYMBOLS.DOTUSD &&
+      symbol !== SYMBOLS.UNIUSD &&
+      symbol !== SYMBOLS.XLMUSD &&
+      symbol !== SYMBOLS.LTCUSD &&
+      symbol !== SYMBOLS.LINKUSD &&
+      symbol !== SYMBOLS.VETUSD
     ) {
       redirect('/not-found');
     }
