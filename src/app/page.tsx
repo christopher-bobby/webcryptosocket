@@ -1,6 +1,6 @@
 "use client"
 
-import RealTimePrice from "@/components/RealTimePrice";
+import RealTimePrice from "../components/RealTimePrice";
 import { useEffect, useState } from "react";
 import { CryptoAsset, CryptoPrices, Last24HrChgs } from "@/types";
 

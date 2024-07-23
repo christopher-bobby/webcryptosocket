@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import Link from 'next/link';
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Crypto Market List",
@@ -17,7 +14,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <head>
+    
+        <link
+          href="https://fonts.googleapis.com/css2?family=Jakarta:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
         <div>
           <main>{children}</main>
         </div>

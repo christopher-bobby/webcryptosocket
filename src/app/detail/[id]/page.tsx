@@ -2,8 +2,8 @@
 
 import { NextPage } from 'next';
 import { useParams } from 'next/navigation';
-import TradingViewWidget from '@/components/TradingViewWidget';
-import OrderBook from '@/components/OrderBook';
+import TradingViewWidget from '../../../components/TradingViewWidget';
+import OrderBook from '../../../components/OrderBook';
 import {
   BTCUSDT,
   XRPUSDT,
