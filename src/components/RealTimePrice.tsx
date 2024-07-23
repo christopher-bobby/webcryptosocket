@@ -16,10 +16,12 @@ import ic_link from '../assets/icons/ic-chainlink.svg';
 import ic_vet from '../assets/icons/ic-vet.svg';
 import SkeletonLoader from './SkeletonLoader';
 
+type CryptoPriceKey = keyof CryptoPrices;
 
 const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { initialData: CryptoPrices, symbolString: string, last24HoursChanges: Last24HrChgs}) => {
   const [cryptoPrices, setCryptoPrices] = useState({...initialData});
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(()=> {
     setCryptoPrices({...initialData})
   }, [initialData])
@@ -67,7 +69,7 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
 
   if(isLoading) {
     return (
-      <div>
+      <div className="min-h-[100vh]">
         <SkeletonLoader />
         <SkeletonLoader />
         <SkeletonLoader />
@@ -81,11 +83,11 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
 
 
   return (
-    <div  className="bg-white text-black min-h-[100vh] p-5 m-auto">
-      <div className="flex text-black mb-2 md:mb-8">
-        <div className="w-1/2">Name</div>
-        <div className="w-1/4">Last Price</div>
-        <div className="w-1/4 text-right">24h chg%</div>
+    <div className="bg-white text-black min-h-[100vh] p-3 md:p-6 m-auto">
+      <div className="flex text-black mb-6 md:mb-8 font-semibold">
+        <div className="w-1/2 text-sm md:text-md">Name</div>
+        <div className="w-1/4 text-sm md:text-md">Last Price</div>
+        <div className="w-1/4 text-sm md:text-md text-right">24h chg%</div>
       </div>
       <ul>
       {cryptoList.map((crypto) => (
@@ -104,14 +106,14 @@ const RealTimePrice = ({ initialData, symbolString, last24HoursChanges } : { ini
               </div>
 
             </div>
-            <div className="w-1/4">
-              {cryptoPrices[crypto.key] && `$${Number(cryptoPrices[crypto.key]).toFixed(2)}`}
+            <div className="w-1/4 text-sm md:text-md">
+            {cryptoPrices[crypto.key as CryptoPriceKey] && `$${Number(cryptoPrices[crypto.key as CryptoPriceKey]).toFixed(2)}`}
             </div>
-            {last24HoursChanges[crypto.key] && (<div className="w-1/4 text-right text-white">
-              {Number(last24HoursChanges[crypto.key]) > 0 ? (
-                <span className="w-16 h-8 flex items-center justify-center bg-green-500 ml-auto rounded text-sm">{last24HoursChanges[crypto.key]}%</span>
+            {last24HoursChanges[crypto.key as CryptoPriceKey] && (<div className="w-1/4 text-right text-white">
+              {Number(last24HoursChanges[crypto.key as CryptoPriceKey]) > 0 ? (
+                <span className="w-16 h-8 flex items-center justify-center bg-green-500 ml-auto rounded text-sm">{last24HoursChanges[crypto.key as CryptoPriceKey]}%</span>
               ) : (
-                <span className="w-16 h-8 flex items-center justify-center bg-red-500 ml-auto rounded text-sm">{last24HoursChanges[crypto.key]}%</span>
+                <span className="w-16 h-8 flex items-center justify-center bg-red-500 ml-auto rounded text-sm">{last24HoursChanges[crypto.key as CryptoPriceKey]}%</span>
               )}
             </div>)}
           </Link>

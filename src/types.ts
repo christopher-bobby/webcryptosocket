@@ -1,33 +1,33 @@
 export interface CryptoPrices {
-    bitcoin: number | null;
-    ethereum: number | null;
-    "binance-coin": number | null;
-    cardano: number | null;
-    solana: number | null;
-    xrp: number | null;
-    dogecoin: number | null;
-    polkadot: number | null;
-    uniswap: number | null;
-    stellar: number | null;
-    litecoin: number | null;
-    chainlink: number | null;
-    vechain: number | null;
-}
-
+    'bitcoin': number;
+    'ethereum': number;
+    "binance-coin": number;
+    'cardano': number;
+    'solana': number;
+    'xrp': number;
+    'dogecoin': number;
+    'polkadot': number;
+    'uniswap': number;
+    'stellar': number;
+    'litecoin': number;
+    'chainlink': number;
+    'vechain': number;
+  }
+  
 export interface Last24HrChgs {
-    bitcoin: string | null;
-    ethereum: string | null;
+    'bitcoin': string | null;
+    'ethereum': string | null;
     "binance-coin": string | null;
-    cardano: string | null;
-    solana: string | null;
-    xrp: string | null;
-    dogecoin: string | null;
-    polkadot: string | null;
-    uniswap: string | null;
-    stellar: string | null;
-    litecoin: string | null;
-    chainlink: string | null;
-    vechain: string | null;
+    'cardano': string | null;
+    'solana': string | null;
+    'xrp': string | null;
+    'dogecoin': string | null;
+    'polkadot': string | null;
+    'uniswap': string | null;
+    'stellar': string | null;
+    'litecoin': string | null;
+    'chainlink': string | null;
+    'vechain': string | null;
 }
 
 export interface CryptoAsset {

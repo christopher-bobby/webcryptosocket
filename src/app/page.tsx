@@ -1,9 +1,11 @@
 "use client"
 
 import RealTimePrice from "@/components/RealTimePrice";
-import SkeletonLoader from "@/components/SkeletonLoader";
 import { useEffect, useState } from "react";
-import { CryptoAsset } from "@/types";
+import { CryptoAsset, CryptoPrices, Last24HrChgs } from "@/types";
+
+
+type CryptoPriceKey = keyof CryptoPrices;
 
 export default function Home() {
 
@@ -24,36 +26,36 @@ export default function Home() {
     'tron'
   ];
   const symbolString = symbols.join(',');
-  const [cryptoData, setCryptoData] = useState({
-    bitcoin: null,
-    ethereum: null,
-    'binance-coin': null,
-    cardano: null,
-    solana: null,
-    xrp: null,
-    dogecoin: null,
-    polkadot: null,
-    uniswap: null,
-    stellar: null,
-    litecoin: null,
-    chainlink: null,
-    vechain: null,
+  const [cryptoData, setCryptoData] = useState<CryptoPrices>({
+    'bitcoin': 0,
+    'ethereum': 0,
+    'binance-coin': 0,
+    'cardano': 0,
+    'solana': 0,
+    'xrp': 0,
+    'dogecoin': 0,
+    'polkadot': 0,
+    'uniswap': 0,
+    'stellar': 0,
+    'litecoin': 0,
+    'chainlink': 0,
+    'vechain': 0
   });
 
-const [last24HoursChanges, setLast24HoursChanges] = useState({
-    bitcoin: null,
-    ethereum: null,
+const [last24HoursChanges, setLast24HoursChanges] = useState<Last24HrChgs>({
+    'bitcoin': null,
+    'ethereum': null,
     'binance-coin': null,
-    cardano: null,
-    solana: null,
-    xrp: null,
-    dogecoin: null,
-    polkadot: null,
-    uniswap: null,
-    stellar: null,
-    litecoin: null,
-    chainlink: null,
-    vechain: null,
+    'cardano': null,
+    'solana': null,
+    'xrp': null,
+    'dogecoin': null,
+    'polkadot': null,
+    'uniswap': null,
+    'stellar': null,
+    'litecoin': null,
+    'chainlink': null,
+    'vechain': null,
 })
  
   useEffect(() => {
@@ -61,12 +63,12 @@ const [last24HoursChanges, setLast24HoursChanges] = useState({
       try {
         const response = await fetch(`https://api.coincap.io/v2/assets?ids=${symbolString}`);
         const data = await response.json();
-        const updatedPrices = { ...cryptoData };
-        const lastChanges = {...last24HoursChanges}
+        const updatedPrices:CryptoPrices = { ...cryptoData };
+        const lastChanges = {...last24HoursChanges};
         data.data.forEach((asset: CryptoAsset) => {
-          if (updatedPrices[asset.id] !== undefined) {
-            updatedPrices[asset.id] = parseFloat(asset.priceUsd);
-            lastChanges[asset.id] = Number(asset.changePercent24Hr).toFixed(2);   
+          if (cryptoData[asset.id as CryptoPriceKey] !== undefined) {
+            updatedPrices[asset.id as CryptoPriceKey] = parseFloat(asset.priceUsd);
+            lastChanges[asset.id as CryptoPriceKey] = Number(asset.changePercent24Hr).toFixed(2);   
           }
         });
         setCryptoData(updatedPrices);

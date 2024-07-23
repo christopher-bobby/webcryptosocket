@@ -2,7 +2,7 @@ import React from 'react';
 
 const SkeletonLoader = () => {
   return (
-    <div className="p-4 w-1/2 mx-auto flex">
+    <div className="p-4 mx-auto flex">
         <div className="animate-pulse flex space-x-4 w-1/2">
             <div className="rounded-full bg-gray-200 h-12 w-12"></div>
             <div className="flex-1 space-y-4 py-1">
